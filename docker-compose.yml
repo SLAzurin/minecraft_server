@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  minecraft_server:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: minecraft_server
+    # restart: unless-stopped
+    volumes:
+      - ./:/src/
+    ports:
+      - "25565:25565"
