@@ -11,3 +11,5 @@ Find hdd UUID (not PARTUUID)
 
 Mount the hdd now  
 `sudo mount /mnt/<mount_name>`
+
+Folder `DIM1` is the data for The End, and folder `DIM-1` is the data for The Nether.  
