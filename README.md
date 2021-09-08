@@ -2,6 +2,7 @@
 1. Copy and rename `update_checker.env.template` to `update_checker.env`
 2. Check that file if theres any options to change
 3. Execute `./run_update_checker.sh`
+4. (Optional) Add this to cron: `0 0 * * 0 cd ~/minecraft_server && ./run_update_checker.sh`
 
 # Useful stuff #
 
