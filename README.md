@@ -1,3 +1,8 @@
+# How to use update checker and updater
+1. Copy and rename `update_checker.env.template` to `update_checker.env`
+2. Check that file if theres any options to change
+3. Execute `./run_update_checker.sh`
+
 # Useful stuff #
 
 Crontab (as root)  

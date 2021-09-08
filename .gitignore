@@ -1,1 +1,4 @@
 server_files/*
+update_checker.env
+update_checker
+last_update.json
