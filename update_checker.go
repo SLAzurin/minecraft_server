@@ -48,13 +48,39 @@ func main() {
 	versions := versions{}
 	err = json.Unmarshal(body, &versions)
 	if err != nil {
-		log.Println("cannot check for new paper version, json syntax error")
+		log.Println("cannot check for new paper version, request's json syntax error")
 		os.Exit(1)
 	}
 	latestBuild := versions.Builds[len(versions.Builds)-1]
 	build := latestBuild.Build
 	filename := latestBuild.Downloads.Application.Name
 	version := latestBuild.Version
+
+	// Check if version changed
+	if _, err := os.Stat("last_update.json"); err == nil {
+		fileContent := make(map[string]interface{})
+		jsonFile, err := os.Open("last_update.json")
+		if err != nil {
+			log.Println("cannot check for new paper version, open last_update.json failed")
+			os.Exit(1)
+		}
+		jsonBytes, err := ioutil.ReadAll(jsonFile)
+		if err != nil {
+			log.Println("cannot check for new paper version, read last_update.json failed")
+			os.Exit(1)
+		}
+		err = json.Unmarshal(jsonBytes, &fileContent)
+		if err != nil {
+			log.Println("cannot check for new paper version, last_update.json json syntax error")
+			os.Exit(1)
+		}
+		// JSON numbers are always float64
+		if fileContent["Version"].(string) == version && int(fileContent["Build"].(float64)) == build {
+			log.Println("No new updates found.")
+			os.Exit(0)
+		}
+	}
+
 	url = "https://papermc.io/api/v2/projects/paper/versions/" + version + "/builds/" + strconv.Itoa(build) + "/downloads/" + filename
 	resp, err = http.Get(url)
 	if err != nil || resp.StatusCode == http.StatusNotFound {
@@ -110,4 +136,6 @@ func main() {
 			os.Exit(1)
 		}
 	}
+
+	log.Println("Update successful.")
 }
