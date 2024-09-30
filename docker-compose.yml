@@ -1,12 +1,10 @@
-version: '3.8'
-
 services:
-  minecraft_server:
+  server:
     build:
       context: .
       dockerfile: ./Dockerfile
-    container_name: minecraft_server
-    # restart: unless-stopped
+    restart: on-failure
+    init: true
     volumes:
       - ./:/src/
     ports:
